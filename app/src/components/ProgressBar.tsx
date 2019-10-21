@@ -28,7 +28,7 @@ const Frame = styled.div<{ progress: number, label: string, interval: number }>`
 `
 
 export const ProgressBar: React.FC<{ progress: number, interval: number }> = ({ progress, interval }) => {
-  const percentage = Math.ceil(progress * 100)
+  const percentage = Math.floor(progress * 100)
   const label = progress ? `${percentage}%` : ''
   return <Frame progress={percentage} label={label} interval={interval} />
 }

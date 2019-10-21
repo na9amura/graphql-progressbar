@@ -30,7 +30,7 @@ const App: React.FC = () => {
     const update = async () => {
       const current = await getProgress()
       updateProgress(current)
-      if (current > 0.98) updateStarted(false)
+      if (current >= 1) updateStarted(false)
     }
 
     const startUpdate = () => {
