@@ -6,10 +6,10 @@ const url = 'http://localhost:4000/graphql'
 const options = { headers: {} }
 const client = new GraphQLClient(url, options)
 
-export const startProgress = async (): Promise<boolean> => {
+export const changeProgress = async (command: 'start' | 'cancel'): Promise<boolean> => {
   const query = `
     mutation {
-      cmd(input: "start") {
+      cmd(input: "${command}") {
         result
       }
     }

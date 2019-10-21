@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ProgressBar } from './components/ProgressBar';
 import styled from 'styled-components';
 import { Button } from './components/Button';
-import { startProgress, getProgress } from './repositories/ProgressRepository'
+import { changeProgress, getProgress } from './repositories/ProgressRepository'
 
 const Frame = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ const App: React.FC = () => {
   const [progress, updateProgress] = useState<number>(0)
 
   const onClickStart = async () => {
-    const res = await startProgress()
+    const res = await changeProgress('start')
     updateStarted(res)
   }
 
@@ -43,7 +43,10 @@ const App: React.FC = () => {
     const id: number | undefined = startUpdate()
 
     return () => {
-      if (id) clearInterval(id)
+      if (id) {
+        clearInterval(id)
+        changeProgress('cancel')
+      }
     }
   }, [started])
 
