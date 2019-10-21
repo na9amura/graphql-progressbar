@@ -15,35 +15,42 @@ const Frame = styled.div`
   }
 `
 
-type AppState = { started: boolean, progress: number, intervalId?: number }
 const interval = 500
 
 const App: React.FC = () => {
-  const [state, updateState] = useState<AppState>({ started: false, progress: 0, intervalId: undefined })
+  const [started, updateStarted] = useState<boolean>(false)
+  const [progress, updateProgress] = useState<number>(0)
+
   const onClickStart = async () => {
-    const started = await startProgress()
-    updateState({ ...state, started })
+    const res = await startProgress()
+    updateStarted(res)
   }
 
   useEffect(() => {
     const update = async () => {
-      const progress = await getProgress()
-      updateState({ ...state, progress: progress })
-      // TODO: stop interval if 100%
+      const current = await getProgress()
+      updateProgress(current)
+      if (current > 0.98) updateStarted(false)
     }
 
-    let intervalId: number | undefined = undefined
-    if (state.started) {
-      intervalId = setInterval(update, interval)
+    const startUpdate = () => {
+      if (started) {
+        update()
+        return setInterval(update, interval)
+      }
     }
 
-    return () => clearInterval(intervalId)
-  }, [state])
+    const id: number | undefined = startUpdate()
+
+    return () => {
+      if (id) clearInterval(id)
+    }
+  }, [started])
 
   return (
     <div className="App">
       <Frame>
-        <ProgressBar progress={state.progress} interval={interval} />
+        <ProgressBar progress={progress} interval={interval} />
         <Button onClick={onClickStart}>
           start
         </Button>
