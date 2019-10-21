@@ -6,14 +6,13 @@ const Frame = styled.div<{ progress: number, label: string, interval: number }>`
   border: 1px solid gray;
   border-radius: .5rem;
   height: 3rem;
+  overflow: hidden;
   position: relative;
   width: 100%;
 
   ::after {
     align-items: center;
     background-color: blue;
-    /* TODO: remove right radius until 100% */
-    border-radius: .25rem;
     border-top-left-radius: .25rem;
     border-bottom-left-radius: .25rem;
     color: white;
