@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Frame = styled.div<{ progress: number }>`
+const Frame = styled.div<{ progress: number, label: string, interval: number }>`
   background-color: white;
   border: 1px solid gray;
   border-radius: .5rem;
@@ -17,16 +17,18 @@ const Frame = styled.div<{ progress: number }>`
     border-top-left-radius: .25rem;
     border-bottom-left-radius: .25rem;
     color: white;
-    content: '${({ progress }) => progress ? `${progress}%` : ''}';
+    content: '${({ label }) => label}';
     display: flex;
     height: 3rem;
     justify-content: center;
     position: absolute;
-    transition: all .2s ease-out;
+    transition: all ${({ interval }) => interval}ms linear;
     width: ${({ progress }) => progress}%;
   }
 `
 
-export const ProgressBar: React.FC<{ progress: number }> = ({ progress }) => (
-  <Frame progress={progress} />
-)
+export const ProgressBar: React.FC<{ progress: number, interval: number }> = ({ progress, interval }) => {
+  const percentage = Math.ceil(progress * 100)
+  const label = progress ? `${percentage}%` : ''
+  return <Frame progress={percentage} label={label} interval={interval} />
+}
