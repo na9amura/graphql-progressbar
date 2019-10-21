@@ -21,9 +21,15 @@ const App: React.FC = () => {
   const [started, updateStarted] = useState<boolean>(false)
   const [progress, updateProgress] = useState<number>(0)
 
-  const onClickStart = async () => {
-    const res = await changeProgress('start')
-    updateStarted(res)
+  const onClick = async (started: boolean) => {
+    if (started) {
+      await changeProgress('cancel')
+      updateStarted(false)
+      updateProgress(0)
+    } else {
+      const res = await changeProgress('start')
+      updateStarted(res)
+    }
   }
 
   useEffect(() => {
@@ -54,8 +60,8 @@ const App: React.FC = () => {
     <div className="App">
       <Frame>
         <ProgressBar progress={progress} interval={interval} />
-        <Button onClick={onClickStart}>
-          start
+        <Button onClick={() => onClick(started)}>
+          {started ? 'Cancel' : 'Start'}
         </Button>
       </Frame>
     </div>
