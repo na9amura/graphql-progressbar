@@ -9,6 +9,8 @@ const Frame = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 2rem;
+  height: 100vh;
 
   > * ~ * {
     margin-top: 1rem;
